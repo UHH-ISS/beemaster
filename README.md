@@ -17,6 +17,10 @@ The project and its documentation (Readme, Source Code) is splitted in multiple 
 * [UHH-ISS / beemaster-cim](https://github.com/UHH-ISS/beemaster-cim) - *Cyber Incident Monitor*
 
 
+## Warning
+The repositories were moved from the servers of the University of Hamburg. During this transition the names of the repositories changed. However, the contents of the repositories do not reflect this change at the time of writing. For example, you may have to adjust Dockerfile and docker-compose files.
+
+The former `mp-ids-` needs to be changed to `beemaster-`.
 
 
 ## Documentation
@@ -26,6 +30,6 @@ You can generate a HTML documentation for the source code and Readme files. See:
 
 
 ## Tests
-* Integration tests (docker based) can be found in the folder [**tests**](tests).
+Integration tests (docker based) can be found in the folder [**tests**](tests).
 
 
