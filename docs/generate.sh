@@ -29,6 +29,11 @@ _FW_DIR='../../beemaster-acu-fw'
 _ACU_DIR='../../beemaster-acu-portscan'
 [ -d "$_ACU_DIR" ] || _ACU_DIR='../../acu-portscan'
 
+# parse arguments
+_PUSH=false
+[ "$1" == "-h" -o "$1" == "--help" ] && { echo "$0 [-h|--help] [-p]"; exit 0; }
+[ "$1" == "-p" ] && _PUSH=true
+
 # link directories
 # -- hp repo
 [ -d "$_HP_DIR" ] || { echo "Cannot find HP Repository at '$_HP_DIR'" >&2; exit 1; }
@@ -66,7 +71,16 @@ fi
 [ -d "_acu-fw" ] || doxygen doxygen_acufw.conf
 [ -d "_acu" ] || doxygen doxygen_acu.conf
 
+# add gh-pages
+[ -d "_build/html" ] || git clone -b gh-pages $(git config --get remote.origin.url) _build/html
+
 # run sphinx
 . $_ENVDIR/bin/activate
 make html
 deactivate
+
+# commit and push
+if $_PUSH; then
+    git -C _build/html/ commit -am 're-building docs'
+    git -C _build/html/ push
+fi

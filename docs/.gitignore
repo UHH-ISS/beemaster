@@ -1,7 +1,5 @@
 .ropeproject
 _*/
-!_build/
-doctrees/
 *.md
 *hp
 *acu-portscan
