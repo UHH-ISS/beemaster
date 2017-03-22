@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MP-IDS ACU Framework &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mp-ids-acu-framework">
+<span id="mp-ids-acu-framework"></span><h1>MP-IDS ACU Framework<a class="headerlink" href="#mp-ids-acu-framework" title="Permalink to this headline">¶</a></h1>
+<p>Beemaster ships with a self-made general purpose framework for implementing custom alert correlation units (ACUs). Please have a look at the <a class="reference external" href="https://git.informatik.uni-hamburg.de/iss/mp-ids/blob/master/dokumente/dokumentation/architektur/Architektur.pdf">architecture documentation</a> (German) for further reading about ACUs.</p>
+<div class="section" id="overview">
+<span id="overview"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The framework offers a general abstraction layer for <a class="reference external" href="https://github.com/bro/broker">Broker</a>-based communication with a <a class="reference external" href="https://www.bro.org">Bro</a> IDS instance. It handles messaging entirely and lets programmers focus on implementing algorithms directly in C++ on top of Bro events.</p>
+<p>The framework is meant to be extensible; it provides a set of abstract classes for handling Bro events and integrates them into an event processing flow. During this flow, different steps are processed for persisting, aggregating, and correlating the messages. Resulting alerts are sent back to a Bro instance via Broker.</p>
+</div>
+<div class="section" id="project-setup">
+<span id="project-setup"></span><h2>Project setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build">
+<span id="build"></span><h3>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h3>
+<p>The project is intended to be developed with <a class="reference external" href="https://www.jetbrains.com/clion/">CLion</a>. As it shall also be
+possible to build the project without an IDE (i.e. on the command-line), we
+added the <a class="reference external" href="Makefile"><code class="docutils literal"><span class="pre">Makefile</span></code></a>. Calling <code class="docutils literal"><span class="pre">make</span></code> will build the project inside the
+<code class="docutils literal"><span class="pre">build/</span></code> directory.</p>
+</div>
+<div class="section" id="code-structure">
+<span id="code-structure"></span><h3>Code-Structure<a class="headerlink" href="#code-structure" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span>├── Makefile                    # Makefile for &#39;IDE-less&#39; compilation
+│
+├── cmake                       # additional cmake files
+│   └── FindBroker.cmake
+├── CMakeLists.txt              # the cmake build file
+│
+├── include                     # headers
+│   └── acu
+│       └── *.h
+├── README.md
+├── src                         # sources
+│   ├── *.cc
+│   └── CMakeLists.txt
+└── test                        # test cases
+    ├── *.cc
+    └── CMakeLists.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-template">
+<span id="header-template"></span><h3>Header Template<a class="headerlink" href="#header-template" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="cm">/* &lt;filename&gt;</span>
+<span class="cm"> * ACU Framework</span>
+<span class="cm"> *</span>
+<span class="cm"> * &lt;description&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * @author: &lt;influencers&gt;</span>
+<span class="cm"> */</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/acu.h">acu.h</a> for an example.</p>
+</div>
+<div class="section" id="testing">
+<span id="testing"></span><h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">make</span> <span class="pre">clean</span> <span class="pre">test</span></code> will clean and rebuild the framework sources. Then it executes all tests from the <a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/test">test</a> directory.</p>
+</div>
+</div>
+<div class="section" id="implementing-a-custom-acu">
+<span id="implementing-a-custom-acu"></span><h2>Implementing a custom ACU<a class="headerlink" href="#implementing-a-custom-acu" title="Permalink to this headline">¶</a></h2>
+<p>By using this framework, implementing a custom ACU is a comfortable task. Please find two examples for custom ACUs inside the Beemaster <a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan">ACU respository</a>. The <code class="docutils literal"><span class="pre">master</span></code> branch features a simple ACU for detecting portscans (e.g. a distributed portscan). ~~On the <code class="docutils literal"><span class="pre">experimental_lattice</span></code> branch, there is more sophisticated ACU featuring a sample implementation of the lattice algorithm.~~</p>
+<div class="section" id="example">
+<span id="example"></span><h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Please have a look at the <a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/test/test_acu.cc">integration test</a>. It provides a minimal example of how to implement a custom ACU using the framework and demonstrates the dataflow cycle from end to end.</p>
+</div>
+<div class="section" id="class-overview-description">
+<span id="class-overview-description"></span><h3>Class overview &amp; description<a class="headerlink" href="#class-overview-description" title="Permalink to this headline">¶</a></h3>
+<p>The framework provides a variety of (abstract-) classes and interfaces that need to be implemented for a custom ACU to work properly.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/storage.h">include/acu/storage.h</a>: Storage interface. The framework uses the custom storage that implements this interface to persist any incoming alert.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/incoming_alert.h">include/acu/incoming_alert.h</a>: Wrapper object for incoming messages. You can use the frameworks default implementation or extend it with your own class.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/outgoing_alert.h">include/acu/outgoing_alert.h</a>: Wrapper object for alert generated by the ACU. You can use the frameworks default implementation or extend it with your own class.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/aggregation.h">include/acu/aggregation.h</a>: Aggregation algorithm: A custom ACU implementation must provide some aggregation function. The framework invokes this function on <em>each</em> incoming alert. The return value of this function determines whether to start a correlation.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/correlation.h">include/acu/correlation.h</a>: Correlation algorithm. A custom ACU must provide some correlation function. It is invoked on positive aggregation results. The correlation may return an outgoing alert. If so, that will be sent back to the peered Bro master.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/alert_mapper.h">include/acu/alert_mapper.h</a>: Alert mapper. It is used to convert incoming Broker messages to objects. You can use the frameworks default implementation or extend it with your own class.</li>
+<li><a class="reference external" href="https://github.com/UHH-ISS/beemaster-acu-portscan/blob/master/beemaster-acu-fw/include/acu/threshold.h">include/acu/threshold.h</a>: Thresholds are used for runtime configuration of the aggregations and correlations.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MP-IDS ACU Framework</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#project-setup">Project setup</a><ul>
+<li><a class="reference internal" href="#build">Build</a></li>
+<li><a class="reference internal" href="#code-structure">Code-Structure</a></li>
+<li><a class="reference internal" href="#header-template">Header Template</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implementing-a-custom-acu">Implementing a custom ACU</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#class-overview-description">Class overview &amp; description</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/beemaster-acu-portscan/beemaster-acu-fw/README.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alert Correlation Unit (Implementation) &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="index.html" />
+    <link rel="prev" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan" href="beemaster-acu-portscan/README.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-portscan/README.html" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alert-correlation-unit-implementation">
+<h1>Alert Correlation Unit (Implementation)<a class="headerlink" href="#alert-correlation-unit-implementation" title="Permalink to this headline">¶</a></h1>
+<p>The <em>ACU</em> represents an actual implementation of the <em>ACU Framework</em>.</p>
+<div class="section" id="configparser">
+<h2>ConfigParser<a class="headerlink" href="#configparser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster12ConfigParserE">
+<span id="beemaster::ConfigParser"></span><span class="target" id="acuclassbeemaster_1_1ConfigParser"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">ConfigParser</code><a class="headerlink" href="#_CPPv2N9beemaster12ConfigParserE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster12ConfigParser12ConfigParserERNSt6stringE">
+<span id="beemaster::ConfigParser::ConfigParser__ssCR"></span><span class="target" id="acuclassbeemaster_1_1ConfigParser_1a522c04a74fe926944eca92570d5ee2a6"></span><code class="descname">ConfigParser</code><span class="sig-paren">(</span>std::string <em class="property">const</em> &amp;<em>filepath</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12ConfigParser12ConfigParserERNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read <em>filepath</em> as an INI-File.</p>
+<p>Section are introduced with <code class="docutils literal"><span class="pre">[header]</span></code>, comments with <code class="docutils literal"><span class="pre">#</span></code> (as first character of line) and key-values as <code class="docutils literal"><span class="pre">key</span> <span class="pre">=</span> <span class="pre">value</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">filepath</span></code>: The file to read </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12ConfigParser9GetStringERNSt6stringERNSt6stringE">
+<span id="beemaster::ConfigParser::GetString__ssCR.ssCR"></span><span class="target" id="acuclassbeemaster_1_1ConfigParser_1ab55f973b8411e9befa3061add99fc70d"></span>std::string <code class="descname">GetString</code><span class="sig-paren">(</span>std::string <em class="property">const</em> &amp;<em>section</em>, std::string <em class="property">const</em> &amp;<em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12ConfigParser9GetStringERNSt6stringERNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string for given path.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The stored value </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">section</span></code>: The section to look in </li>
+<li><code class="docutils literal"><span class="pre">entry</span></code>: The entry to look for </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12ConfigParser6GetIntERNSt6stringERNSt6stringE">
+<span id="beemaster::ConfigParser::GetInt__ssCR.ssCR"></span><span class="target" id="acuclassbeemaster_1_1ConfigParser_1a3812f4d9be4cc20e982e0c451c61cbb5"></span>int <code class="descname">GetInt</code><span class="sig-paren">(</span>std::string <em class="property">const</em> &amp;<em>section</em>, std::string <em class="property">const</em> &amp;<em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12ConfigParser6GetIntERNSt6stringERNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get interger for given path.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The stored value (atio). </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">section</span></code>: The section to look in </li>
+<li><code class="docutils literal"><span class="pre">entry</span></code>: The entry to look for </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="alertmapper">
+<h2>AlertMapper<a class="headerlink" href="#alertmapper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster11AlertMapperE">
+<span id="beemaster::AlertMapper"></span><span class="target" id="acuclassbeemaster_1_1AlertMapper"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">AlertMapper</code><a class="headerlink" href="#_CPPv2N9beemaster11AlertMapperE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from AlertMapper</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2NK9beemaster11AlertMapper8GetAlertEPKNSt6stringERKN6broker7messageE">
+<span id="beemaster::AlertMapper::GetAlert__ssCP.broker::messageCRC"></span><span class="target" id="acuclassbeemaster_1_1AlertMapper_1a37b189c5e9899dbb4884a983d301f079"></span><a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<code class="descname">GetAlert</code><span class="sig-paren">(</span><em class="property">const</em> std::string *<em>topic</em>, <em class="property">const</em> broker::message &amp;<em>msg</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9beemaster11AlertMapper8GetAlertEPKNSt6stringERKN6broker7messageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map an incoming broker-message into an IncomingAlert. The implementation may decide to return a more specific alert.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The corresponding IncomingAlert (possible subtype) </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">topic</span></code>: The topic, this message arrived on </li>
+<li><code class="docutils literal"><span class="pre">msg</span></code>: The message, which will be converted </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="tcpalert">
+<h2>TcpAlert<a class="headerlink" href="#tcpalert" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster8TcpAlertE">
+<span id="beemaster::TcpAlert"></span><span class="target" id="acuclassbeemaster_1_1TcpAlert"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">TcpAlert</code><a class="headerlink" href="#_CPPv2N9beemaster8TcpAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from IncomingAlert</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster8TcpAlert8TcpAlertEPKNSt6stringERKN6broker7messageE">
+<span id="beemaster::TcpAlert::TcpAlert__ssCP.broker::messageCR"></span><span class="target" id="acuclassbeemaster_1_1TcpAlert_1a79b3d2b3f5575ac7a59d1ee44ce7aeb0"></span><code class="descname">TcpAlert</code><span class="sig-paren">(</span><em class="property">const</em> std::string *<em>topic</em>, <em class="property">const</em> broker::message &amp;<em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster8TcpAlert8TcpAlertEPKNSt6stringERKN6broker7messageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acuclassbeemaster_1_1TcpAlert"><span class="std std-ref">TcpAlert</span></a>. This alert represents an incoming tcp event.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">topic</span></code>: The topic, this alert was sent on </li>
+<li><code class="docutils literal"><span class="pre">msg</span></code>: The message of this event </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9beemaster8TcpAlert4typeEv">
+<span id="beemaster::TcpAlert::typeC"></span><span class="target" id="acuclassbeemaster_1_1TcpAlert_1ae8974b7f18de2bd6a07829fc3cd9db06"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N9beemaster7TcpTypeE" title="beemaster::TcpType">TcpType</a> &amp;<code class="descname">type</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9beemaster8TcpAlert4typeEv" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The TcpType of this event </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="portscanaggregation">
+<h2>PortscanAggregation<a class="headerlink" href="#portscanaggregation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster19PortscanAggregationE">
+<span id="beemaster::PortscanAggregation"></span><span class="target" id="acuclassbeemaster_1_1PortscanAggregation"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">PortscanAggregation</code><a class="headerlink" href="#_CPPv2N9beemaster19PortscanAggregationE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from Aggregation</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster19PortscanAggregation19PortscanAggregationEPN3acu7StorageEPNSt6vectorIN3acu9ThresholdEEE">
+<span id="beemaster::PortscanAggregation::PortscanAggregation__acu::StorageP.std::vector:acu::Threshold:P"></span><span class="target" id="acuclassbeemaster_1_1PortscanAggregation_1a751404d921d53a90b02e6c52499611ed"></span><code class="descname">PortscanAggregation</code><span class="sig-paren">(</span><a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<em>storage</em>, std::vector&lt;<a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<em>thresholds</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster19PortscanAggregation19PortscanAggregationEPN3acu7StorageEPNSt6vectorIN3acu9ThresholdEEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acuclassbeemaster_1_1PortscanAggregation"><span class="std std-ref">PortscanAggregation</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">storage</span></code>: The shared storage object </li>
+<li><code class="docutils literal"><span class="pre">threshold</span></code>: The thresholds to trigger the <a class="reference internal" href="#acuclassbeemaster_1_1PortscanCorrelation"><span class="std std-ref">PortscanCorrelation</span></a> </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster19PortscanAggregation6InvokeEPKN3acu13IncomingAlertE">
+<span id="beemaster::PortscanAggregation::Invoke__acu::IncomingAlertCP"></span><span class="target" id="acuclassbeemaster_1_1PortscanAggregation_1a7340bfd55401826eacc8a7696e4e08ea"></span>bool <code class="descname">Invoke</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster19PortscanAggregation6InvokeEPKN3acu13IncomingAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method triggered upon new IncomingAlert. Aggregates values and returns true, if the correlation shall be triggered.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True, if correlation shall be triggered, false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">alert</span></code>: The new IncomingAlert. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Static Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N9beemaster19PortscanAggregation14THRESHOLD_PORTE">
+<span id="beemaster::PortscanAggregation::THRESHOLD_PORT__ssC"></span><span class="target" id="acuclassbeemaster_1_1PortscanAggregation_1a5e6553c71f3c16fb06425878f831a62f"></span><em class="property">const</em> std::string <code class="descname">THRESHOLD_PORT</code> = &quot;__destination_port__&quot;<a class="headerlink" href="#_CPPv2N9beemaster19PortscanAggregation14THRESHOLD_PORTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant port fieldname for the threshold. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N9beemaster19PortscanAggregation19THRESHOLD_TIMESTAMPE">
+<span id="beemaster::PortscanAggregation::THRESHOLD_TIMESTAMP__ssC"></span><span class="target" id="acuclassbeemaster_1_1PortscanAggregation_1a69efc17766bff34c331d79a5fcf1be0f"></span><em class="property">const</em> std::string <code class="descname">THRESHOLD_TIMESTAMP</code> = &quot;__timestamp__&quot;<a class="headerlink" href="#_CPPv2N9beemaster19PortscanAggregation19THRESHOLD_TIMESTAMPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant timestamp fieldname for the threshold. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="portscancorrelation">
+<h2>PortscanCorrelation<a class="headerlink" href="#portscancorrelation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster19PortscanCorrelationE">
+<span id="beemaster::PortscanCorrelation"></span><span class="target" id="acuclassbeemaster_1_1PortscanCorrelation"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">PortscanCorrelation</code><a class="headerlink" href="#_CPPv2N9beemaster19PortscanCorrelationE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from Correlation</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster19PortscanCorrelation19PortscanCorrelationEP12RocksStoragePNSt6vectorIN3acu9ThresholdEEE">
+<span id="beemaster::PortscanCorrelation::PortscanCorrelation__RocksStorageP.std::vector:acu::Threshold:P"></span><span class="target" id="acuclassbeemaster_1_1PortscanCorrelation_1a96155ed96ea15c5b323d687acdeed327"></span><code class="descname">PortscanCorrelation</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9beemaster12RocksStorageE" title="beemaster::RocksStorage">RocksStorage</a> *<em>storage</em>, std::vector&lt;<a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<em>thresholds</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster19PortscanCorrelation19PortscanCorrelationEP12RocksStoragePNSt6vectorIN3acu9ThresholdEEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acuclassbeemaster_1_1PortscanCorrelation"><span class="std std-ref">PortscanCorrelation</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">storage</span></code>: The shared storage object </li>
+<li><code class="docutils literal"><span class="pre">threshold</span></code>: The thresholds for operation granulation </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster19PortscanCorrelation6InvokeEv">
+<span id="beemaster::PortscanCorrelation::Invoke"></span><span class="target" id="acuclassbeemaster_1_1PortscanCorrelation_1a6a5557f49e788c54452c2276666e00b9"></span><a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13OutgoingAlertE" title="acu::OutgoingAlert">OutgoingAlert</a> *<code class="descname">Invoke</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster19PortscanCorrelation6InvokeEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method triggered by the aggregation result. Correlates aggregated data to build up a possible meta-alert.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>nullptr, if no correlation happened; valid OutgoingAlert otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Static Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N9beemaster19PortscanCorrelation20THRESHOLD_PORT_COUNTE">
+<span id="beemaster::PortscanCorrelation::THRESHOLD_PORT_COUNT__ssC"></span><span class="target" id="acuclassbeemaster_1_1PortscanCorrelation_1a2f4936ac4e3af0d215c30ebe911e80e0"></span><em class="property">const</em> std::string <code class="descname">THRESHOLD_PORT_COUNT</code> = &quot;__portcount__&quot;<a class="headerlink" href="#_CPPv2N9beemaster19PortscanCorrelation20THRESHOLD_PORT_COUNTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant port-count fieldname for the threshold. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="portscanalert">
+<h2>PortscanAlert<a class="headerlink" href="#portscanalert" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster13PortscanAlertE">
+<span id="beemaster::PortscanAlert"></span><span class="target" id="acuclassbeemaster_1_1PortscanAlert"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">PortscanAlert</code><a class="headerlink" href="#_CPPv2N9beemaster13PortscanAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from OutgoingAlert</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster13PortscanAlert13PortscanAlertERKNSt6stringERKNSt6chrono10time_pointINSt6chrono12system_clockEEE">
+<span id="beemaster::PortscanAlert::PortscanAlert__ssCR.std::chrono::time_point:std::chrono::system_clock:CR"></span><span class="target" id="acuclassbeemaster_1_1PortscanAlert_1aba95eff21a128beb18af6e15c089d097"></span><code class="descname">PortscanAlert</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em>, <em class="property">const</em> std::chrono::time_point&lt;std::chrono::system_clock&gt; &amp;<em>timestamp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster13PortscanAlert13PortscanAlertERKNSt6stringERKNSt6chrono10time_pointINSt6chrono12system_clockEEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acuclassbeemaster_1_1PortscanAlert"><span class="std std-ref">PortscanAlert</span></a>. This alert represents an outgoing alert, produced by the <a class="reference internal" href="#acuclassbeemaster_1_1PortscanCorrelation"><span class="std std-ref">PortscanCorrelation</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: The name of the event </li>
+<li><code class="docutils literal"><span class="pre">timestamp</span></code>: The point in time, this alert was created </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9beemaster13PortscanAlert9EventNameEv">
+<span id="beemaster::PortscanAlert::EventNameC"></span><span class="target" id="acuclassbeemaster_1_1PortscanAlert_1a0c9ea0f58158d4a24bb0dbebd33478c1"></span><em class="property">const</em> std::string <code class="descname">EventName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9beemaster13PortscanAlert9EventNameEv" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>This event&#8217;s name </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9beemaster13PortscanAlert9ToMessageEv">
+<span id="beemaster::PortscanAlert::ToMessageC"></span><span class="target" id="acuclassbeemaster_1_1PortscanAlert_1ace8615c733dbb6e3fc644c7e0d688fd6"></span><em class="property">const</em> broker::message <code class="descname">ToMessage</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9beemaster13PortscanAlert9ToMessageEv" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The corresponding broker-message of this alert </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N9beemaster13PortscanAlert15destination_ipsE">
+<span id="beemaster::PortscanAlert::destination_ips__std::vector:ss:"></span><span class="target" id="acuclassbeemaster_1_1PortscanAlert_1a9ca8acb31918a77d68ec9cfc88fdd7f5"></span>std::vector&lt;std::string&gt; <code class="descname">destination_ips</code><a class="headerlink" href="#_CPPv2N9beemaster13PortscanAlert15destination_ipsE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The targeted IP adresses. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rocksstorage">
+<h2>RocksStorage<a class="headerlink" href="#rocksstorage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster12RocksStorageE">
+<span id="beemaster::RocksStorage"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">RocksStorage</code><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from Storage</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage12RocksStorageENSt6stringE">
+<span id="beemaster::RocksStorage::RocksStorage__ss"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a49dffb4e389173c8b69c3de468f8d85b"></span><code class="descname">RocksStorage</code><span class="sig-paren">(</span>std::string <em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage12RocksStorageENSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise and open DB</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">db_name</span></code>: The path for the database </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorageD0Ev">
+<span id="beemaster::RocksStorage::~RocksStorage"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a9d0f82ffe67524909523bff515d1b6ac"></span><code class="descname">~RocksStorage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorageD0Ev" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage7PersistEPKN3acu13IncomingAlertE">
+<span id="beemaster::RocksStorage::Persist__acu::IncomingAlertCP"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a08e98d12cd117aa423b621f70d71b128"></span>void <code class="descname">Persist</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage7PersistEPKN3acu13IncomingAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Persist an alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage6AppendEKNSt6stringEKNSt6stringE">
+<span id="beemaster::RocksStorage::Append__ssC.ssC"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a59e137291baf2c20401929e3787d68f0"></span>bool <code class="descname">Append</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>key</em>, <em class="property">const</em> std::string <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage6AppendEKNSt6stringEKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends the given <em>value</em> to values currently nested under <em>key</em>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Success boolean </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key which will be set </li>
+<li><code class="docutils literal"><span class="pre">value</span></code>: The value to set</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage3GetEKNSt6stringE">
+<span id="beemaster::RocksStorage::Get__ssC"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a30255142311510acd752e705c0c45336"></span>std::string <code class="descname">Get</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage3GetEKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of <em>key</em>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The stored value </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key which value will be returned</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage6DeleteEKNSt6stringE">
+<span id="beemaster::RocksStorage::Delete__ssC"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1aef993dcb0ad56a86d00ad1a9727ede1d"></span>bool <code class="descname">Delete</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage6DeleteEKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete <em>key</em>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Success boolean </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key which will be deleted</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster12RocksStorage11GetIteratorEv">
+<span id="beemaster::RocksStorage::GetIterator"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a777dc0c5f64e1ecb8cb5bfd2b7f3a6d2"></span>rocksdb::Iterator *<code class="descname">GetIterator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage11GetIteratorEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Iterator over the rocksdb, which allows for key-value traversal:</p>
+<p><div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">SeekToFirst</span><span class="p">();</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">Valid</span><span class="p">();</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">Next</span><span class="p">())</span> <span class="p">{</span>
+  <span class="o">...</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">();</span> <span class="o">...</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="n">delete</span> <span class="n">it</span><span class="p">;</span>
+</pre></div>
+</div>
+ Be aware, that the value is a rocksdb::Slice here. Cast via `*(&lt;type&gt;*)it-&gt;key()/value().data() or use it-&gt;key()/value().ToString() </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N9beemaster12RocksStorage8databaseE">
+<span id="beemaster::RocksStorage::database__rocksdb::DBP"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1a610c5b86ab74b3a6fb8b06b6c40214dc"></span>rocksdb::DB *<code class="descname">database</code><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage8databaseE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The underlying RocksDB. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N9beemaster12RocksStorage7optionsE">
+<span id="beemaster::RocksStorage::options__rocksdb::Options"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1ad22ead1c291a13cbe8e4cf5cf71ade2d"></span>rocksdb::Options <code class="descname">options</code><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage7optionsE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The used RocksDB options. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N9beemaster12RocksStorage12writeOptionsE">
+<span id="beemaster::RocksStorage::writeOptions__rocksdb::WriteOptions"></span><span class="target" id="acuclassbeemaster_1_1RocksStorage_1aa932e1007fc31cedbe00084f55a828d7"></span>rocksdb::WriteOptions <code class="descname">writeOptions</code><a class="headerlink" href="#_CPPv2N9beemaster12RocksStorage12writeOptionsE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The used RocksDB WriteOptions. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="vectorstorage">
+<h2>VectorStorage<a class="headerlink" href="#vectorstorage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N9beemaster13VectorStorageE">
+<span id="beemaster::VectorStorage"></span><span class="target" id="acuclassbeemaster_1_1VectorStorage"></span><em class="property">class </em><code class="descclassname">beemaster::</code><code class="descname">VectorStorage</code><a class="headerlink" href="#_CPPv2N9beemaster13VectorStorageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inherits from Storage</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster13VectorStorage13VectorStorageENSt6stringE">
+<span id="beemaster::VectorStorage::VectorStorage__ss"></span><span class="target" id="acuclassbeemaster_1_1VectorStorage_1a0077dd94c0fb050495eb92ac2a2cc6c9"></span><code class="descname">VectorStorage</code><span class="sig-paren">(</span>std::string <em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster13VectorStorage13VectorStorageENSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise DB</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">db_name</span></code>: The name of the database </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster13VectorStorageD0Ev">
+<span id="beemaster::VectorStorage::~VectorStorage"></span><span class="target" id="acuclassbeemaster_1_1VectorStorage_1a96877750fbf957dd53ed218b49b066ab"></span><code class="descname">~VectorStorage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster13VectorStorageD0Ev" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster13VectorStorage7PersistEPKN3acu13IncomingAlertE">
+<span id="beemaster::VectorStorage::Persist__acu::IncomingAlertCP"></span><span class="target" id="acuclassbeemaster_1_1VectorStorage_1a0801ee08903875dac875be97e2746e4d"></span>void <code class="descname">Persist</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster13VectorStorage7PersistEPKN3acu13IncomingAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Persist an alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster13VectorStorage3PopEKNSt6stringE">
+<span id="beemaster::VectorStorage::Pop__ssC"></span><span class="target" id="acuclassbeemaster_1_1VectorStorage_1a425d9dbf48efc054aa0fd3d3d53754e8"></span>std::vector&lt;<em class="property">const</em> <a class="reference internal" href="acu-fw.html#_CPPv23acu" title="acu">acu</a>::<a class="reference internal" href="acu-fw.html#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *&gt; *<code class="descname">Pop</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>topic</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster13VectorStorage3PopEKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all messages for <em>topic</em> and remove them from the DB. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="tcptype">
+<h2>TcpType<a class="headerlink" href="#tcptype" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv2N9beemaster7TcpTypeE">
+<span id="beemaster::TcpType"></span><span class="target" id="acunamespacebeemaster_1a1eb91f99e8a6e31da21c111174ee80e6"></span><em class="property">enum </em><code class="descclassname">beemaster::</code><code class="descname">TcpType</code><a class="headerlink" href="#_CPPv2N9beemaster7TcpTypeE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of a TCP message. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N9beemaster3SYNE">
+<span id="beemaster::SYN"></span><span class="target" id="acunamespacebeemaster_1a1eb91f99e8a6e31da21c111174ee80e6af3de8af5aefbd8d535520c85267d7e36"></span><code class="descname">SYN</code> = 1<a class="headerlink" href="#_CPPv2N9beemaster3SYNE" title="Permalink to this definition">¶</a></dt>
+<dd><p>SYN TCP event. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="utils">
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv29beemaster">
+<span id="beemaster"></span><span class="target" id="acunamespacebeemaster"></span><em class="property">namespace </em><code class="descname">beemaster</code><a class="headerlink" href="#_CPPv29beemaster" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9beemaster15contains_stringEKNSt6stringEKNSt6stringEKc">
+<span id="beemaster::contains_string__ssC.ssC.cC"></span><span class="target" id="acunamespacebeemaster_1a9e34b2e034de0c81b810242298a24224"></span>bool <code class="descname">contains_string</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>stack</em>, <em class="property">const</em> std::string <em>needle</em>, <em class="property">const</em> char <em>delimiter</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster15contains_stringEKNSt6stringEKNSt6stringEKc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks, whether <code class="docutils literal"><span class="pre">needle</span></code> is part of <code class="docutils literal"><span class="pre">stack</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if found, false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">stack</span></code>: The string to search in </li>
+<li><code class="docutils literal"><span class="pre">needle</span></code>: The string to search for </li>
+<li><code class="docutils literal"><span class="pre">delimiter</span></code>: Additional separator in the stack </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster14time_to_stringEKNSt6chrono10time_pointINSt6chrono12system_clockEEE">
+<span id="beemaster::time_to_string__std::chrono::time_point:std::chrono::system_clock:C"></span><span class="target" id="acunamespacebeemaster_1a4d76c2534bba31352f7f95c4ecddea5b"></span>std::string <code class="descname">time_to_string</code><span class="sig-paren">(</span><em class="property">const</em> std::chrono::time_point&lt;std::chrono::system_clock&gt; <em>ts</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster14time_to_stringEKNSt6chrono10time_pointINSt6chrono12system_clockEEE" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The string representation of that point in time </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ts</span></code>: The timepoint to convert </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9beemaster17decrement_minutesEKNSt6chrono10time_pointINSt6chrono12system_clockEEEK8uint64_t">
+<span id="beemaster::decrement_minutes__std::chrono::time_point:std::chrono::system_clock:C.uint64_tC"></span><span class="target" id="acunamespacebeemaster_1ad908498332f2cfe4a85df43deb1123e1"></span>std::string <code class="descname">decrement_minutes</code><span class="sig-paren">(</span><em class="property">const</em> std::chrono::time_point&lt;std::chrono::system_clock&gt; <em>ts</em>, <em class="property">const</em> uint64_t <em>interval</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9beemaster17decrement_minutesEKNSt6chrono10time_pointINSt6chrono12system_clockEEEK8uint64_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract value from a point in time and return that value as string</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The newly changed time as string </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">ts</span></code>: The timepoint to count from </li>
+<li><code class="docutils literal"><span class="pre">interval</span></code>: The number of minutes to subtract from ts </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alert Correlation Unit (Implementation)</a><ul>
+<li><a class="reference internal" href="#configparser">ConfigParser</a></li>
+<li><a class="reference internal" href="#alertmapper">AlertMapper</a></li>
+<li><a class="reference internal" href="#tcpalert">TcpAlert</a></li>
+<li><a class="reference internal" href="#portscanaggregation">PortscanAggregation</a></li>
+<li><a class="reference internal" href="#portscancorrelation">PortscanCorrelation</a></li>
+<li><a class="reference internal" href="#portscanalert">PortscanAlert</a></li>
+<li><a class="reference internal" href="#rocksstorage">RocksStorage</a></li>
+<li><a class="reference internal" href="#vectorstorage">VectorStorage</a></li>
+<li><a class="reference internal" href="#tcptype">TcpType</a></li>
+<li><a class="reference internal" href="#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="beemaster-acu-portscan/README.html"
+                        title="previous chapter">MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/acu-portscan.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-portscan/README.html" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

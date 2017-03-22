@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Generic Connector &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="../../index.html" />
+    <link rel="next" title="Dionaea" href="../dionaea/README.html" />
+    <link rel="prev" title="MP-IDS Honeypot" href="../README.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../dionaea/README.html" title="Dionaea"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../README.html" title="MP-IDS Honeypot"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="generic-connector">
+<span id="generic-connector"></span><h1>Generic Connector<a class="headerlink" href="#generic-connector" title="Permalink to this headline">¶</a></h1>
+<p>The generic <em>Connector</em> of <em>Beemaster</em> is responsible for connecting a honeypot with the <em>Bro</em> cluster. The <em>Connecter</em> generally accepts JSON-formatted input via HTTP, maps it to <em>Broker</em>-compatible data types and sends a <em>Broker</em>-message to a configurable endpoint.</p>
+<p>You are highly encouraged to always run the <em>Connector</em> on the same machine as the corresponding honeypot, use only one <em>Connector</em> per honeypot and hide the <em>Connector</em> from the outside.</p>
+<p>The following topics are be discussed:</p>
+<ul class="simple">
+<li><a class="reference external" href="#configuration">Configuration of the <em>Connector</em></a></li>
+<li><a class="reference external" href="#usage">Usage with and without Docker</a></li>
+<li><a class="reference external" href="#setup-development-environment">Setup development environment</a></li>
+</ul>
+<div class="section" id="configuration">
+<span id="configuration"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="connection">
+<span id="connection"></span><h3>Connection<a class="headerlink" href="#connection" title="Permalink to this headline">¶</a></h3>
+<p>Connection-related settings of the <em>Connecter</em> can be configured by passing arguments at start or specifying a configuration file. The following arguments are supported:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">file</span>                  <span class="n">Configuration</span> <span class="n">file</span> <span class="n">to</span> <span class="n">use</span><span class="o">.</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>              <span class="n">Show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">laddr</span> <span class="n">address</span>         <span class="n">Address</span> <span class="n">to</span> <span class="n">listen</span> <span class="n">on</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">lport</span> <span class="n">port</span>            <span class="n">Port</span> <span class="n">to</span> <span class="n">listen</span> <span class="n">on</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">saddr</span> <span class="n">address</span>         <span class="n">Address</span> <span class="n">to</span> <span class="n">send</span> <span class="n">to</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">sport</span> <span class="n">port</span>            <span class="n">Port</span> <span class="n">to</span> <span class="n">send</span> <span class="n">to</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">mappings</span> <span class="n">directory</span>    <span class="n">Directory</span> <span class="n">to</span> <span class="n">look</span> <span class="k">for</span> <span class="n">mappings</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">topic</span> <span class="n">topic</span>           <span class="n">Topic</span> <span class="k">for</span> <span class="n">sent</span> <span class="n">messages</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">endpoint_prefix</span> <span class="n">name</span>  <span class="n">Prefix</span> <span class="n">name</span> <span class="k">for</span> <span class="n">the</span> <span class="n">Broker</span> <span class="n">endpoint</span><span class="o">.</span>
+  <span class="o">--</span><span class="nb">id</span> <span class="n">connector_id</span>       <span class="n">This</span> <span class="n">connector</span><span class="s1">&#39;s unique id.</span>
+  <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">file</span> <span class="n">file</span>         <span class="n">The</span> <span class="n">file</span> <span class="n">to</span> <span class="n">log</span> <span class="n">to</span><span class="o">.</span> <span class="s1">&#39;stderr&#39;</span> <span class="ow">and</span> <span class="s1">&#39;stdout&#39;</span> <span class="n">work</span> <span class="k">as</span> <span class="n">special</span> <span class="n">names</span> <span class="k">for</span> <span class="n">standard</span><span class="o">-</span><span class="n">error</span> <span class="ow">and</span> <span class="o">-</span><span class="n">out</span> <span class="n">respectively</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">level</span> <span class="n">level</span>       <span class="n">Set</span> <span class="n">the</span> <span class="n">log</span><span class="o">-</span><span class="n">level</span><span class="o">.</span> <span class="p">{</span><span class="s1">&#39;INFO&#39;</span><span class="p">,</span> <span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">,</span> <span class="s1">&#39;CRITICAL&#39;</span><span class="p">}</span>
+  <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">datefmt</span> <span class="nb">format</span>    <span class="n">Set</span> <span class="n">the</span> <span class="n">date</span><span class="o">/</span><span class="n">time</span> <span class="nb">format</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">logging</span> <span class="p">(</span><span class="s1">&#39;asctime&#39;</span> <span class="n">placeholder</span> <span class="ow">in</span> <span class="n">log</span><span class="o">-</span><span class="nb">format</span><span class="p">)</span><span class="o">.</span> <span class="n">Python</span><span class="s1">&#39;s strftime format is used.</span>
+  <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="nb">format</span> <span class="nb">format</span>     <span class="n">Set</span> <span class="n">the</span> <span class="n">logging</span> <span class="nb">format</span><span class="o">.</span> <span class="n">Use</span> <span class="n">the</span> <span class="s1">&#39;asctime&#39;</span> <span class="n">placeholder</span> <span class="n">to</span> <span class="n">include</span> <span class="n">the</span> <span class="n">date</span><span class="o">.</span> <span class="n">See</span> <span class="n">the</span> <span class="n">python</span> <span class="n">docs</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span> <span class="n">on</span> <span class="n">this</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>The positional argument accepts configuration files written in YAML with the following format:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">listen</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">address</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>                        <span class="c1"># Address to listen on.</span>
+    <span class="l l-Scalar l-Scalar-Plain">port</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">8080</span>                              <span class="c1"># Port to listen on.</span>
+<span class="l l-Scalar l-Scalar-Plain">send</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">address</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">127.0.0.1</span>                      <span class="c1"># Address to send to.</span>
+    <span class="l l-Scalar l-Scalar-Plain">port</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">5000</span>                              <span class="c1"># Port to send to.</span>
+<span class="l l-Scalar l-Scalar-Plain">mappings</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mappings</span>                          <span class="c1"># Directory to look for mappings.</span>
+<span class="l l-Scalar l-Scalar-Plain">broker</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">topic</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">honeypot/dionaea/</span>                <span class="c1"># Topic for sent messages.</span>
+    <span class="l l-Scalar l-Scalar-Plain">endpoint_prefix</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">beemaster-connector-</span>   <span class="c1"># Prefix name for the broker endpoint.</span>
+</pre></div>
+</div>
+<p>The values shown in the example above are the default values the <em>Connecter</em> falls back to, in case no arguments are passed.</p>
+<p>By default, the <em>Connecter</em> uses the hostname to identify itself. You can change it to whatever name you like, but it <em>must be a unique name in your network</em>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">connector_id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">my_unique_connector_name</span>       <span class="c1"># Remove this to use the hostname by default</span>
+</pre></div>
+</div>
+<p><a name="logging" ></a>
+Furthermore, the <em>Connecter</em> is able to write logs. Just let him know in what information you are interested in:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">logging</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">stderr</span>
+    <span class="l l-Scalar l-Scalar-Plain">level</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ERROR</span>
+    <span class="l l-Scalar l-Scalar-Plain">datefmt</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+    <span class="l l-Scalar l-Scalar-Plain">format</span><span class="p p-Indicator">:</span> <span class="s">&quot;[</span><span class="nv"> </span><span class="s">%(asctime)s</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">%(name)10s</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">%(levelname)8s</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">%(message)s&quot;</span>
+</pre></div>
+</div>
+<p>Tip: Writing the <code class="docutils literal"><span class="pre">INFO</span></code> level to <code class="docutils literal"><span class="pre">stdout</span></code> or a file, mounted by the host to the Docker container, makes it easier to see the traffic throughput of the <em>Connecter</em>.</p>
+</div>
+<div class="section" id="mapping">
+<span id="mapping"></span><h3>Mapping<a class="headerlink" href="#mapping" title="Permalink to this headline">¶</a></h3>
+<p>The mappings used by the <em>Connecter</em> are configurable via YAML files. Below is an example of a mapping for a Dionaea access event:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="c1"># one file per access type</span>
+<span class="c1">#</span>
+<span class="c1"># name: name of the event (for bro)</span>
+<span class="c1"># mapping: the structure of the arriving json</span>
+<span class="c1">#          to map to the desired broker-type</span>
+<span class="c1">#          (implemented in mapper)</span>
+<span class="c1"># message: the structure of the message, as it</span>
+<span class="c1">#          will be put into the broker message</span>
+<span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">dionaea_access</span>
+<span class="l l-Scalar l-Scalar-Plain">mapping</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">timestamp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">time_point</span>
+    <span class="l l-Scalar l-Scalar-Plain">src_hostname</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+    <span class="l l-Scalar l-Scalar-Plain">src_ip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">address</span>
+    <span class="l l-Scalar l-Scalar-Plain">src_port</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">port_count</span>
+    <span class="l l-Scalar l-Scalar-Plain">dst_ip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">address</span>
+    <span class="l l-Scalar l-Scalar-Plain">dst_port</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">port_count</span>
+    <span class="l l-Scalar l-Scalar-Plain">connection</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="l l-Scalar l-Scalar-Plain">protocol</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="l l-Scalar l-Scalar-Plain">transport</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="l l-Scalar l-Scalar-Plain">message</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">timestamp</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dst_ip</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dst_port</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">src_hostname</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">src_ip</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">src_port</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">transport</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">protocol</span>
+</pre></div>
+</div>
+<p>Once you create a mapping, be sure to create the corresponding event handler on the <em>Bro</em> side of the connection.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<span id="usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Connector</em> can be used within a Docker container or locally for testing.
+We advise you to run the <em>Connector</em> always on the same host as the <em>Dionaea</em> honeypot.</p>
+<p><strong>Important:</strong> Make sure that the configured <em>Broker</em> endpoint (send to) is available as the <em>Connector</em> will not accept data on its listening port (listen from) otherwise.</p>
+<p><em>Note:</em> We provide a setup for a <em>Raspberry Pi</em>. The official <a class="reference external" href="https://git.informatik.uni-hamburg.de/iss/mp-ids/blob/master/dokumente/dokumentation/produktdoku/Dokumentation.pdf">project documentation</a> (in German) describes the setup.</p>
+<div class="section" id="docker-setup">
+<span id="docker-setup"></span><h3>Docker Setup<a class="headerlink" href="#docker-setup" title="Permalink to this headline">¶</a></h3>
+<p>If you want to use the <em>Connector</em> in conjunction with <em>Dionaea</em>, you can use the following compose file (and make sure all directories are present, or change them accordingly).</p>
+<p>By default (inside the container), the contents of the <code class="docutils literal"><span class="pre">conf</span></code> directory are copied into the <code class="docutils literal"><span class="pre">src</span></code> directory. Thus the <code class="docutils literal"><span class="pre">connector.py</span></code> can be started by passing the configuration filename directly (see the <a class="reference external" href="../docker-compose.yaml"><code class="docutils literal"><span class="pre">docker-compose</span></code></a> file example below):</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span> <span class="s">&#39;2&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">connector</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">./mp-ids-hp/connector</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;config-docker.yaml&quot;</span><span class="p p-Indicator">]</span>
+  <span class="l l-Scalar l-Scalar-Plain">dionaea</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">./mp-ids-hp/dionaea</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;21:21&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;23:23&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;53:53/udp&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;53:53&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;80:80&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;123:123/udp&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;443:443&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;445:445&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;3306:3306&quot;</span>
+</pre></div>
+</div>
+<p>Run <code class="docutils literal"><span class="pre">docker-compose</span> <span class="pre">up</span> <span class="pre">--build</span></code>.</p>
+<p>Be sure to expose only those ports of <em>Dionaea</em> you want to be accessible for attackers.</p>
+<p>Instead of passing <a class="reference external" href="conf/config-docker.yaml"><code class="docutils literal"><span class="pre">config-docker.yaml</span></code></a> as an argument (which is a configuration adjusted for this compose file), you could also pass your own values, e.g.:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span>  <span class="l l-Scalar l-Scalar-Plain">connector</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;--sport&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;1337&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;--topic&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;leetevent/&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>You can also run the <em>Connecter</em> as a standalone container by appending the correct arguments to the <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span></code> command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">connector</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="n">connector</span> <span class="o">--</span><span class="n">sport</span> <span class="mi">1337</span> <span class="o">--</span><span class="n">topic</span> <span class="n">leetevent</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>For testing purposes</strong>, you might want to run <em>Dionaea</em> and the <em>Connector</em>
+together with <em>Bro</em>. Have a look at the <a class="reference external" href="https://github.com/UHH-ISS/beemaster-bro/blob/master/docker-compose.yml">compose file</a> of the <em>Beemaster Bro</em> repository. There you can find a simple <em>Bro</em> cluster setup.</p>
+</div>
+<div class="section" id="without-docker">
+<span id="without-docker"></span><h3>Without Docker<a class="headerlink" href="#without-docker" title="Permalink to this headline">¶</a></h3>
+<p>Ensure that you sourced the virtual environment as described <a class="reference external" href="#setup-development-environment">here</a>. The <em>Connector</em> needs to run on Python 2 and requires modules which are not located in the <code class="docutils literal"><span class="pre">src</span></code> folder but included in the environment.</p>
+<p>Start the <em>Connector</em> via <code class="docutils literal"><span class="pre">python</span> <span class="pre">connector.py</span></code> and use the correct arguments for your environment. This repository holds a configuration file that can be used for <a class="reference external" href="https://github.com/UHH-ISS/beemaster-hp/blob/master/connector/conf/config-local.yaml">local testing</a>, which is identical to the default configuration, apart from sending to port <code class="docutils literal"><span class="pre">9999</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">python</span> <span class="pre">connector.py</span> <span class="pre">../conf/config-local.yaml</span></code></p>
+<p>It will bind to port <code class="docutils literal"><span class="pre">8080</span></code> and listen for JSON post input. See the <a class="reference external" href="../dionaea/README.md#talk-to-dionaea"><em>Dionaea</em> readme</a> for information about how to communicate with it.</p>
+</div>
+</div>
+<div class="section" id="setup-development-environment">
+<span id="setup-development-environment"></span><h2>Setup Development Environment<a class="headerlink" href="#setup-development-environment" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://github.com/UHH-ISS/beemaster-hp/blob/master/setup.sh">setup.sh</a> script can be used to set up a development and testing environment.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>./setup.sh -h
+<span class="c1"># Usage: ./setup.sh -h</span>
+<span class="c1">#        ./setup.sh [-i|u] [-d] [-s]</span>
+<span class="c1">#        ./setup.sh -c</span>
+<span class="c1">#</span>
+<span class="c1"># Options:</span>
+<span class="c1">#     -h      Print this help message and exit.</span>
+<span class="c1">#     -i      Install virtualenv, if not installed.</span>
+<span class="c1">#     -u      Update environment(s) with new requirements.</span>
+<span class="c1">#     -d      Setup development environment (for linting etc.)</span>
+<span class="c1">#     -s      Adds symlinks for easier environment sourcing.</span>
+<span class="c1">#     -c      Removes everything, created by this setup and exits.</span>
+</pre></div>
+</div>
+<div class="section" id="development">
+<span id="development"></span><h3>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h3>
+<p>Execute <code class="docutils literal"><span class="pre">./setup.sh</span> <span class="pre">-d</span></code> to setup all required environments. <code class="docutils literal"><span class="pre">flake8</span></code> will be
+accessible in the main directory so you do not necessarily need to source the
+environment to use the linter (if sourced, <code class="docutils literal"><span class="pre">flake8</span></code> will be in your <code class="docutils literal"><span class="pre">PATH</span></code>).</p>
+</div>
+<div class="section" id="execution-only">
+<span id="execution-only"></span><h3>Execution Only<a class="headerlink" href="#execution-only" title="Permalink to this headline">¶</a></h3>
+<p>If you only need to run the code, use <code class="docutils literal"><span class="pre">./setup.sh</span></code> to install the minimal
+environment.</p>
+<p>Source the environment with <code class="docutils literal"><span class="pre">.</span> <span class="pre">env/bin/activate</span></code> (or use the symlink, provided
+by <code class="docutils literal"><span class="pre">./setup.sh</span> <span class="pre">-s</span></code>). Be aware, that the activation only applies for the current
+shell.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Generic Connector</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#connection">Connection</a></li>
+<li><a class="reference internal" href="#mapping">Mapping</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#docker-setup">Docker Setup</a></li>
+<li><a class="reference internal" href="#without-docker">Without Docker</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setup-development-environment">Setup Development Environment</a><ul>
+<li><a class="reference internal" href="#development">Development</a></li>
+<li><a class="reference internal" href="#execution-only">Execution Only</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../README.html"
+                        title="previous chapter">MP-IDS Honeypot</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../dionaea/README.html"
+                        title="next chapter">Dionaea</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/beemaster-hp/connector/README.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../dionaea/README.html" title="Dionaea"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../README.html" title="MP-IDS Honeypot"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

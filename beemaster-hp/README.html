@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MP-IDS Honeypot &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="../index.html" />
+    <link rel="next" title="Generic Connector" href="connector/README.html" />
+    <link rel="prev" title="Style Guide" href="../STYLEGUIDE.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="connector/README.html" title="Generic Connector"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../STYLEGUIDE.html" title="Style Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mp-ids-honeypot">
+<span id="mp-ids-honeypot"></span><h1>MP-IDS Honeypot<a class="headerlink" href="#mp-ids-honeypot" title="Permalink to this headline">¶</a></h1>
+<p>This repository contains the sources of a generic <strong>Connector</strong> with configuration files to be used in conjunction with the <a class="reference external" href="https://github.com/DinoTools/dionaea">Dionaea</a> honeypot.
+Furthermore, it contains configuration files for <em>Dionaea</em> to make it send incidents to the <em>Connector</em>.</p>
+<p><em>Dionaea</em> is used to provide a broad artificial attack vector. Whatever input <em>Dionaea</em> records, it gets forwarded to the <em>Connector</em>. The <em>Connector</em> is configured to handle the JSON data <em>Dionaea</em> sends and transforms them into <em>Broker</em> messages. Messages are then sent via <em>Broker</em> to a peered <em>Bro</em> master or slave instance.</p>
+<p>Please have a look at the setup of the <a class="reference external" href="https://github.com/UHH-ISS/beemaster/tree/master/tests">integration test</a>, if you are interested in how the <em>Connector</em> and <em>Dionaea</em> work together with the other <em>Beemaster</em> components.</p>
+<div class="section" id="generic-connector">
+<span id="generic-connector"></span><h2>Generic <em>Connector</em><a class="headerlink" href="#generic-connector" title="Permalink to this headline">¶</a></h2>
+<p>You find all information about using the generic <em>Connector</em> together with <em>Dionaea</em> in the <a class="reference external" href="https://github.com/UHH-ISS/beemaster-hp/blob/master/connector">connector</a> folder.
+The following topics will be discussed:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="dionaea-honeypot">
+<span id="dionaea-honeypot"></span><h2>Dionaea Honeypot<a class="headerlink" href="#dionaea-honeypot" title="Permalink to this headline">¶</a></h2>
+<p>You find all information about using <em>Dionaea</em> in a Docker environment and ready to use configurations in the <a class="reference external" href="https://github.com/UHH-ISS/beemaster-hp/blob/master/dionaea">dionaea</a> folder.</p>
+</div>
+<div class="section" id="further-documentation">
+<span id="further-documentation"></span><h2>Further Documentation<a class="headerlink" href="#further-documentation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="/beemaster-hp/dionaea/README.html#logging">Dionaea</a>: Logs a lot by default.</li>
+<li><a class="reference external" href="/beemaster-hp/connector/README.html#logging">Connector</a>: Does not log by default to a file. (Your start script may log the console output, though.)</li>
+</ul>
+</div>
+<div class="section" id="license-attribution">
+<span id="license-attribution"></span><h2>License attribution<a class="headerlink" href="#license-attribution" title="Permalink to this headline">¶</a></h2>
+<p>The dionaea honeypot is licensed under the GPL v2 license (<a class="reference external" href="https://github.com/DinoTools/dionaea/blob/master/LICENSE">Dionaea License</a>).</p>
+<p>Beemaster does solely use the Dionaea Honeypot without any modification of source code. All credits regarding Dionaea belong to the respective creator. Beemaster does not claim to own, modify or redistribute any of the used software components. The applied MIT license only regards the work done during the Beemaster project, including but not limitting to the creation of provided scripts, configuration files and the <code class="docutils literal"><span class="pre">connector</span></code> source files.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MP-IDS Honeypot</a><ul>
+<li><a class="reference internal" href="#generic-connector">Generic <em>Connector</em></a></li>
+<li><a class="reference internal" href="#dionaea-honeypot">Dionaea Honeypot</a></li>
+<li><a class="reference internal" href="#further-documentation">Further Documentation</a></li>
+<li><a class="reference internal" href="#license-attribution">License attribution</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../STYLEGUIDE.html"
+                        title="previous chapter">Style Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="connector/README.html"
+                        title="next chapter">Generic Connector</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/beemaster-hp/README.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="connector/README.html" title="Generic Connector"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../STYLEGUIDE.html" title="Style Guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

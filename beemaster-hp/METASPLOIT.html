@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Metasploit &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="metasploit">
+<span id="metasploit"></span><h1>Metasploit<a class="headerlink" href="#metasploit" title="Permalink to this headline">¶</a></h1>
+<p>Mit Metasploit können Penetrationstests durchgeführt werden. Ferner können bekannte Exploits auf ein oder mehrere Zielsysteme durchgeführt werden.</p>
+<div class="section" id="voraussetzung">
+<span id="voraussetzung"></span><h2>Voraussetzung<a class="headerlink" href="#voraussetzung" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Metasploit installieren: Die kostenlose Basisversion reicht dazu aus.
+Bei Arch Linux gibt&#8217;s die im AuR (<code class="docutils literal"><span class="pre">pacman</span> <span class="pre">-Syu</span> <span class="pre">metasploit</span></code>).</li>
+<li>Im Terminal <code class="docutils literal"><span class="pre">msfconsole</span></code> starten.</li>
+</ul>
+<p>Hinweis: Ein Exploit wurde ausgeführt und somit Angriffsdaten von Dionaea gesammelt,
+wenn in der Konsole <code class="docutils literal"><span class="pre">[*]</span> <span class="pre">Exploit</span> <span class="pre">completed</span></code> zu lesen ist.</p>
+</div>
+<div class="section" id="smb">
+<span id="smb"></span><h2>SMB<a class="headerlink" href="#smb" title="Permalink to this headline">¶</a></h2>
+<p>Um die in iss/mp-ids#132 beschriebene Sicherheitslücke zu testen, muss zunächst
+sichergestellt werden, dass der Dionaea-Container den Port <code class="docutils literal"><span class="pre">445</span></code> nach außen hin
+exposed, damit man da angreifen kann.</p>
+<p>Mit <code class="docutils literal"><span class="pre">use</span> <span class="pre">windows/smb/ms10_061_spoolss</span></code> kann dann der Exploit geladen werden.
+Danach die Optionen[^1] in der Konsole setzen:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">PNAME</span> <span class="n">XPSPrinter</span>
+<span class="nb">set</span> <span class="n">RHOST</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span>
+<span class="nb">set</span> <span class="n">RPORT</span> <span class="mi">445</span>
+</pre></div>
+</div>
+<p>Hilfe zu den Optionen gibt der Befehlt <code class="docutils literal"><span class="pre">show</span> <span class="pre">options</span></code>.</p>
+<p>Dann sollte alles bereit sein und man kann mit <code class="docutils literal"><span class="pre">exploit</span></code> den Angriff starten,
+der nach ein paar Sekunden auch im CIM angezeigt werden sollte.</p>
+<p>Hinweis: Der Exploit selbst schlägt fehl (soll er auch!), liefert aber bereits
+Daten und Dateien. Im CIM sollten folgende Events ankommen:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dionaea_access</span> <span class="p">(</span><span class="n">Als</span> <span class="n">Notiz</span><span class="p">,</span> <span class="n">dass</span> <span class="n">ein</span> <span class="n">Zugriff</span> <span class="n">erfolgt</span> <span class="n">ist</span><span class="p">)</span>
+<span class="mi">3</span><span class="n">x</span> <span class="n">dionaea_download_offer</span> <span class="p">(</span><span class="n">mit</span> <span class="n">Dateipfad</span><span class="p">)</span>
+<span class="mi">2</span><span class="n">x</span> <span class="n">dionaea_download_complete</span> <span class="p">(</span><span class="n">mit</span> <span class="n">md5</span><span class="o">-</span><span class="n">Hashwert</span><span class="p">,</span> <span class="n">Source</span><span class="o">-</span><span class="n">URL</span> <span class="n">und</span> <span class="n">Dateipfad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mysql">
+<span id="mysql"></span><h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this headline">¶</a></h2>
+<p>Ein weiterer Angriff, um MySQL zu testen, geht so: Man muss hier den Port <code class="docutils literal"><span class="pre">3306</span></code>
+exposen, in der <code class="docutils literal"><span class="pre">msfconsole</span></code> folgende Befehle eingeben:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">use</span> <span class="pre">windows/mysql/mysql_payload</span></code></li>
+<li><code class="docutils literal"><span class="pre">set</span> <span class="pre">RHOST</span> <span class="pre">0.0.0.0</span></code>[^1]</li>
+<li>und dann wieder <code class="docutils literal"><span class="pre">exploit</span></code>.</li>
+</ul>
+<p>Da kann man auch überprüfen, ob unsere Fehlermeldung
+mittlerweile angepasst wurde (im Moment kommt immer noch die Dionaea-typische
+<code class="docutils literal"><span class="pre">ServerError</span> <span class="pre">LearnSQL!</span></code>-Meldung). Der Angriff wird auch hier von Dionaea an das
+CIM gemeldet. Allerdings wird er durch genannte Fehlermeldung vorzeitig
+abgebrochen, ohne, dass ein Payload eingespeist werden kann.</p>
+<p>Im CIM sollte ein <code class="docutils literal"><span class="pre">dionaea_mysql_login</span></code>-Event ankommen, das den Username <code class="docutils literal"><span class="pre">root</span></code>
+enthält und ein leeres Passwort (das liegt leider am Dionaea-Modul, dass es
+nicht verlangt wird). Dann zwei <code class="docutils literal"><span class="pre">dionaea_mysql_command</span></code> Events:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">@@</span><span class="n">version_compile_os</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">func</span> <span class="k">where</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sys_exec&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="ftp-fuzzing">
+<span id="ftp-fuzzing"></span><h3>FTP / Fuzzing<a class="headerlink" href="#ftp-fuzzing" title="Permalink to this headline">¶</a></h3>
+<p>Metasploit liefert diverse Fuzzers[^2] aus, die dazu dienen Eingaben zu tätigen,
+um herauszufinden, ob es zu einem Buffer-Overflow führt (z.B. durch zu viele
+Daten oder ein unerwarteter Typ).</p>
+<p>Für FTP kann beispielsweise folgendes Modul verwendet werden:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">use</span> <span class="pre">auxiliary/fuzzers/ftp/ftp_pre_post</span></code></li>
+<li><code class="docutils literal"><span class="pre">set</span> <span class="pre">RHOSTS</span> <span class="pre">0.0.0.0</span></code>[^1]</li>
+<li><code class="docutils literal"><span class="pre">run</span></code></li>
+</ul>
+<p><strong>Achtung:</strong> Bei Beibehaltung der Standardwerte läuft der Fuzzer sehr lange
+(in einer Test-VM (2 Kerne 3,4 GHz, 8 GB RAM, HDD) ca. 38h).
+Im Bro-Log werden einige Hundert MB Logs angesammelt.</p>
+<p>Via des <code class="docutils literal"><span class="pre">info</span></code>-Befehls gibt es weitere Informationen - insbesondere zu den Parametern - und:</p>
+<blockquote>
+<div>This module will connect to a FTP server and perform pre- and post-authentication fuzzing</div></blockquote>
+<p>[^1]: Die IP ggf. anpassen. Im Zweifelsfall gibt <code class="docutils literal"><span class="pre">docker</span> <span class="pre">ps</span></code> Auskunft über die
+korrekte IP / Portwahl.
+[^2]: Via <code class="docutils literal"><span class="pre">search</span> <span class="pre">type:auxiliary</span> <span class="pre">fuzzers</span></code> kann nach weiteren Fuzzers gesucht werden, z.B. auch für SMB usw.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Metasploit</a><ul>
+<li><a class="reference internal" href="#voraussetzung">Voraussetzung</a></li>
+<li><a class="reference internal" href="#smb">SMB</a></li>
+<li><a class="reference internal" href="#mysql">MySQL</a><ul>
+<li><a class="reference internal" href="#ftp-fuzzing">FTP / Fuzzing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/beemaster-hp/METASPLOIT.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

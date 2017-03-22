@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alert Correlation Unit (Framework) &mdash; Beemaster 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Beemaster 1.0 documentation" href="index.html" />
+    <link rel="next" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan" href="beemaster-acu-portscan/README.html" />
+    <link rel="prev" title="MP-IDS ACU Framework" href="beemaster-acu-fw/README.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-portscan/README.html" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-fw/README.html" title="MP-IDS ACU Framework"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alert-correlation-unit-framework">
+<h1>Alert Correlation Unit (Framework)<a class="headerlink" href="#alert-correlation-unit-framework" title="Permalink to this headline">¶</a></h1>
+<p>The <em>ACU Framework</em> provides an abstraction to underlying messaging work and a
+skeleton for concrete implementations. An <em>ACU</em> shall receive messages,
+aggregate and correlate them and finally send a meta-alert back to the Bro.</p>
+<div class="section" id="acu">
+<h2>Acu<a class="headerlink" href="#acu" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu3AcuE">
+<span id="acu::Acu"></span><span class="target" id="acu-fwclassacu_1_1Acu"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Acu</code><a class="headerlink" href="#_CPPv2N3acu3AcuE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu3AcuEP7StorageP11AlertMapper">
+<span id="acu::Acu::Acu__StorageP.AlertMapperP"></span><span class="target" id="acu-fwclassacu_1_1Acu_1ad6e8cb8499b83748f30b89af1cba2817"></span><code class="descname">Acu</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<em>storage</em>, <a class="reference internal" href="#_CPPv2N3acu11AlertMapperE" title="acu::AlertMapper">AlertMapper</a> *<em>mapper</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu3AcuEP7StorageP11AlertMapper" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">storage</span></code>: The concrete storage implementation to use for storing every incoming alert. </li>
+<li><code class="docutils literal"><span class="pre">mapper</span></code>: The concrete alert mapper to be used to convert raw Broker messages to IncomingAlerts. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu8RegisterEPNSt6vectorINSt6stringEEEP11AggregationP11Correlation">
+<span id="acu::Acu::Register__std::vector:ss:P.AggregationP.CorrelationP"></span><span class="target" id="acu-fwclassacu_1_1Acu_1a21ead62df70c6b88b1798f2036428dec"></span>void <code class="descname">Register</code><span class="sig-paren">(</span>std::vector&lt;std::string&gt; *<em>topics</em>, <a class="reference internal" href="#_CPPv2N3acu11AggregationE" title="acu::Aggregation">Aggregation</a> *<em>aggregation</em>, <a class="reference internal" href="#_CPPv2N3acu11CorrelationE" title="acu::Correlation">Correlation</a> *<em>correlation</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu8RegisterEPNSt6vectorINSt6stringEEEP11AggregationP11Correlation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register aggregations and correlations on the given topics.</p>
+<p><strong>aggregation</strong> may be NULL.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">topics</span></code>: The topics to register to. </li>
+<li><code class="docutils literal"><span class="pre">aggregation</span></code>: The <a class="reference internal" href="#acu-fwclassacu_1_1Aggregation"><span class="std std-ref">Aggregation</span></a> to register on those topics. </li>
+<li><code class="docutils literal"><span class="pre">correlation</span></code>: The <a class="reference internal" href="#acu-fwclassacu_1_1Correlation"><span class="std std-ref">Correlation</span></a> to register on those topics. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu3RunEv">
+<span id="acu::Acu::Run"></span><span class="target" id="acu-fwclassacu_1_1Acu_1aba4a0ee5472cb83f0622f1c7ea1f157f"></span>void <code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu3RunEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the ACU main loop. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu14CheckForAlertsEv">
+<span id="acu::Acu::CheckForAlerts"></span><span class="target" id="acu-fwclassacu_1_1Acu_1ae30b445bed00a9425ef84d79e3489913"></span>void <code class="descname">CheckForAlerts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu14CheckForAlertsEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for new alerts. Should be called periodically. Allows the user to interact after incoming messages. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu15SetReceiverInfoENSt6stringE6port_t">
+<span id="acu::Acu::SetReceiverInfo__ss.port_t"></span><span class="target" id="acu-fwclassacu_1_1Acu_1acba03aea601806efc97c07223a2a35b1"></span>void <code class="descname">SetReceiverInfo</code><span class="sig-paren">(</span>std::string <em>address</em>, <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> <em>port</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu15SetReceiverInfoENSt6stringE6port_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set connection data for the receiver. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu13SetSenderInfoENSt6stringE6port_t">
+<span id="acu::Acu::SetSenderInfo__ss.port_t"></span><span class="target" id="acu-fwclassacu_1_1Acu_1a087a1c9af4d16ec605c20e37ed8af4d5"></span>void <code class="descname">SetSenderInfo</code><span class="sig-paren">(</span>std::string <em>address</em>, <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> <em>port</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu13SetSenderInfoENSt6stringE6port_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set connection data for the sender. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu3Acu9OnReceiveEPK13IncomingAlert">
+<span id="acu::Acu::OnReceive__IncomingAlertCP"></span><span class="target" id="acu-fwclassacu_1_1Acu_1ac6fbaae7178bdb7f7adf793a242582bb"></span>void <code class="descname">OnReceive</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu3Acu9OnReceiveEPK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="receiver">
+<h2>Receiver<a class="headerlink" href="#receiver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu8ReceiverE">
+<span id="acu::Receiver"></span><span class="target" id="acu-fwclassacu_1_1Receiver"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Receiver</code><a class="headerlink" href="#_CPPv2N3acu8ReceiverE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu8Receiver8ReceiverENSt6stringE6port_tPNSt6vectorINSt6stringEEEP11AlertMapper">
+<span id="acu::Receiver::Receiver__ss.port_t.std::vector:ss:P.AlertMapperP"></span><span class="target" id="acu-fwclassacu_1_1Receiver_1aade3f9eb6b2704c3ec25436f7992195d"></span><code class="descname">Receiver</code><span class="sig-paren">(</span>std::string <em>address</em>, <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> <em>port</em>, std::vector&lt;std::string&gt; *<em>topics</em>, <a class="reference internal" href="#_CPPv2N3acu11AlertMapperE" title="acu::AlertMapper">AlertMapper</a> *<em>mapper</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu8Receiver8ReceiverENSt6stringE6port_tPNSt6vectorINSt6stringEEEP11AlertMapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a new <a class="reference internal" href="#acu-fwclassacu_1_1Receiver"><span class="std std-ref">Receiver</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">address</span></code>: The address to listen on. </li>
+<li><code class="docutils literal"><span class="pre">port</span></code>: The port to listen on. </li>
+<li><code class="docutils literal"><span class="pre">topics</span></code>: The topics to subscribe to. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu8Receiver4PeerEPNSt5queueIP13IncomingAlertEE">
+<span id="acu::Receiver::Peer__std::queue:IncomingAlertP:P"></span><span class="target" id="acu-fwclassacu_1_1Receiver_1a0ac6b3bef9f489f0dfa4af20c9b20afc"></span>void <code class="descname">Peer</code><span class="sig-paren">(</span>std::queue&lt;<a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *&gt; *<em>queue</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu8Receiver4PeerEPNSt5queueIP13IncomingAlertEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Establish the connection with the outside to receive messages into the queue.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">queue</span></code>: The queue fill with messages. The calling side can then pop those messages. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="alertmapper">
+<h2>AlertMapper<a class="headerlink" href="#alertmapper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu11AlertMapperE">
+<span id="acu::AlertMapper"></span><span class="target" id="acu-fwclassacu_1_1AlertMapper"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">AlertMapper</code><a class="headerlink" href="#_CPPv2N3acu11AlertMapperE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2NK3acu11AlertMapper8GetAlertEPKNSt6stringERKN6broker7messageE">
+<span id="acu::AlertMapper::GetAlert__ssCP.broker::messageCRC"></span><span class="target" id="acu-fwclassacu_1_1AlertMapper_1a67c3999e44dcd694511b8abada871968"></span><a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<code class="descname">GetAlert</code><span class="sig-paren">(</span><em class="property">const</em> std::string *<em>topic</em>, <em class="property">const</em> broker::message &amp;<em>msg</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu11AlertMapper8GetAlertEPKNSt6stringERKN6broker7messageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method to convert a raw Broker message into the corresponding IncomingAlert-Subclass.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The correctly mapped message. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">topic</span></code>: The topic string to identify the message. </li>
+<li><code class="docutils literal"><span class="pre">message</span></code>: The message to convert. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="incomingalert">
+<h2>IncomingAlert<a class="headerlink" href="#incomingalert" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu13IncomingAlertE">
+<span id="acu::IncomingAlert"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">IncomingAlert</code><a class="headerlink" href="#_CPPv2N3acu13IncomingAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu13IncomingAlert13IncomingAlertEPKNSt6stringERKN6broker7messageE">
+<span id="acu::IncomingAlert::IncomingAlert__ssCP.broker::messageCR"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a13b16b7e43922172c0f5790fe8f6690c"></span><code class="descname">IncomingAlert</code><span class="sig-paren">(</span><em class="property">const</em> std::string *<em>topic</em>, <em class="property">const</em> broker::message &amp;<em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu13IncomingAlert13IncomingAlertEPKNSt6stringERKN6broker7messageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a new <a class="reference internal" href="#acu-fwclassacu_1_1IncomingAlert"><span class="std std-ref">IncomingAlert</span></a>.</p>
+<p>This type allows for easy, controlled access to the underlying message while trying to reduce complexity and memory.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">topic</span></code>: The topic, this message was send on. </li>
+<li><code class="docutils literal"><span class="pre">message</span></code>: The actual message. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlert9timestampEv">
+<span id="acu::IncomingAlert::timestampC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1afb58b4f07e5d40ab38ea755be37f6afd"></span>time_point&lt;system_clock&gt; <code class="descname">timestamp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlert9timestampEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Timestamp indicating when the alert occurred. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlert9source_ipEv">
+<span id="acu::IncomingAlert::source_ipC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1ae1b69e96f492d167cfc5779bffea6035"></span><em class="property">const</em> std::string &amp;<code class="descname">source_ip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlert9source_ipEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source IP of the connection that triggered this alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlert11source_portEv">
+<span id="acu::IncomingAlert::source_portC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a04458a2960a6fd4d1c111d78a86325ed"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> &amp;<code class="descname">source_port</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlert11source_portEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source port of the connection that triggered this alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlert14destination_ipEv">
+<span id="acu::IncomingAlert::destination_ipC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a4a5efcb72c4cfc65ac45b0a0f28e5aae"></span><em class="property">const</em> std::string &amp;<code class="descname">destination_ip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlert14destination_ipEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destination IP of the connection that triggered this alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlert16destination_portEv">
+<span id="acu::IncomingAlert::destination_portC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a5d6108898471e1c10654467bfdcf0250"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> &amp;<code class="descname">destination_port</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlert16destination_portEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destination port of the connection that triggered this alert. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlerteqERK13IncomingAlert">
+<span id="acu::IncomingAlert::eq-operator__IncomingAlertCRC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a74f7cfa9f3f741d6a860177d6c577efa"></span>bool <code class="descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> &amp;<em>rhs</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlerteqERK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks upon equality. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13IncomingAlertneERK13IncomingAlert">
+<span id="acu::IncomingAlert::neq-operator__IncomingAlertCRC"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1afae2a2a2ec2fcc4cd69341936052ff68"></span>bool <code class="descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> &amp;<em>rhs</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13IncomingAlertneERK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks upon inequality. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu13IncomingAlert5topicE">
+<span id="acu::IncomingAlert::topic__ssCP"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a33101fdee327edb5f268a4bbafbb10fc"></span><em class="property">const</em> std::string *<code class="descname">topic</code><a class="headerlink" href="#_CPPv2N3acu13IncomingAlert5topicE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Topic the <a class="reference internal" href="#acu-fwclassacu_1_1IncomingAlert"><span class="std std-ref">IncomingAlert</span></a> was received under. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N3acu13IncomingAlert7messageE">
+<span id="acu::IncomingAlert::message__std::vector:broker::data:C"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a8ba9fad4b994e855a237cddbfd6fe7d7"></span><em class="property">const</em> std::vector&lt;broker::data&gt; <code class="descname">message</code><a class="headerlink" href="#_CPPv2N3acu13IncomingAlert7messageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The underlying message. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="function">
+<dt id="_CPPv2lsRNSt7ostreamERK13IncomingAlert">
+<span id="lshift-operator__osR.IncomingAlertCR"></span><span class="target" id="acu-fwclassacu_1_1IncomingAlert_1a1a3244b6b329f6ad7d30813658c593aa"></span>std::ostream &amp;<code class="descname">operator&lt;&lt;</code><span class="sig-paren">(</span>std::ostream &amp;<em>stream</em>, <em class="property">const</em> IncomingAlert &amp;<em>alert</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2lsRNSt7ostreamERK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to print the alert into an ostream. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="aggregation">
+<h2>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu11AggregationE">
+<span id="acu::Aggregation"></span><span class="target" id="acu-fwclassacu_1_1Aggregation"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Aggregation</code><a class="headerlink" href="#_CPPv2N3acu11AggregationE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu11Aggregation11AggregationEP7StoragePNSt6vectorI9ThresholdEE">
+<span id="acu::Aggregation::Aggregation__StorageP.std::vector:Threshold:P"></span><span class="target" id="acu-fwclassacu_1_1Aggregation_1a658c75eda2da19adb935ce2cf8b481ee"></span><code class="descname">Aggregation</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<em>storage</em>, std::vector&lt;<a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<em>thresholds</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu11Aggregation11AggregationEP7StoragePNSt6vectorI9ThresholdEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a new <a class="reference internal" href="#acu-fwclassacu_1_1Aggregation"><span class="std std-ref">Aggregation</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">storage</span></code>: The shared storage object </li>
+<li><code class="docutils literal"><span class="pre">thresholds</span></code>: The thresholds for this aggregation to trigger correlations </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu11Aggregation6InvokeEPK13IncomingAlert">
+<span id="acu::Aggregation::Invoke__IncomingAlertCP"></span><span class="target" id="acu-fwclassacu_1_1Aggregation_1a8e3aba0755af197c7025fd90f44c6f3f"></span><em class="property">virtual</em> bool <code class="descname">Invoke</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N3acu11Aggregation6InvokeEPK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method called, when a new <a class="reference internal" href="#acu-fwclassacu_1_1IncomingAlert"><span class="std std-ref">IncomingAlert</span></a> is available. The actual aggregation will be done by this method.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if correlation shall be triggered, false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">alert</span></code>: The new <a class="reference internal" href="#acu-fwclassacu_1_1IncomingAlert"><span class="std std-ref">IncomingAlert</span></a> </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu11Aggregation7storageE">
+<span id="acu::Aggregation::storage__StorageP"></span><span class="target" id="acu-fwclassacu_1_1Aggregation_1a407e5785ab3a11bfe1238984644cb6b1"></span><a class="reference internal" href="#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<code class="descname">storage</code><a class="headerlink" href="#_CPPv2N3acu11Aggregation7storageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The storage object, shared with all aggregations and correlations. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu11Aggregation10thresholdsE">
+<span id="acu::Aggregation::thresholds__std::vector:Threshold:P"></span><span class="target" id="acu-fwclassacu_1_1Aggregation_1a34708525076df386da2a4ca06798a6b0"></span>std::vector&lt;<a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<code class="descname">thresholds</code><a class="headerlink" href="#_CPPv2N3acu11Aggregation10thresholdsE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thresholds for triggering correlations. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="correlation">
+<h2>Correlation<a class="headerlink" href="#correlation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu11CorrelationE">
+<span id="acu::Correlation"></span><span class="target" id="acu-fwclassacu_1_1Correlation"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Correlation</code><a class="headerlink" href="#_CPPv2N3acu11CorrelationE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu11Correlation11CorrelationEP7StoragePNSt6vectorI9ThresholdEE">
+<span id="acu::Correlation::Correlation__StorageP.std::vector:Threshold:P"></span><span class="target" id="acu-fwclassacu_1_1Correlation_1a45f01b5877a3ea08e5f95a8e04db77a3"></span><code class="descname">Correlation</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<em>storage</em>, std::vector&lt;<a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<em>thresholds</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu11Correlation11CorrelationEP7StoragePNSt6vectorI9ThresholdEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a new <a class="reference internal" href="#acu-fwclassacu_1_1Correlation"><span class="std std-ref">Correlation</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">storage</span></code>: The shared storage object </li>
+<li><code class="docutils literal"><span class="pre">thresholds</span></code>: The thresholds for this internal triggers </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu11Correlation6InvokeEv">
+<span id="acu::Correlation::Invoke"></span><span class="target" id="acu-fwclassacu_1_1Correlation_1a0725a43ea871b71cd5f99f9faa9f4db9"></span><em class="property">virtual</em> <a class="reference internal" href="#_CPPv2N3acu13OutgoingAlertE" title="acu::OutgoingAlert">OutgoingAlert</a> *<code class="descname">Invoke</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N3acu11Correlation6InvokeEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method triggered by aggregation. The actual correlation will be done in this method. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu11Correlation7storageE">
+<span id="acu::Correlation::storage__StorageP"></span><span class="target" id="acu-fwclassacu_1_1Correlation_1aa33ab8dc6f92b3af1ce70e5ee28d3704"></span><a class="reference internal" href="#_CPPv2N3acu7StorageE" title="acu::Storage">Storage</a> *<code class="descname">storage</code><a class="headerlink" href="#_CPPv2N3acu11Correlation7storageE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The storage object, shared with all aggregations and correlations. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu11Correlation10thresholdsE">
+<span id="acu::Correlation::thresholds__std::vector:Threshold:P"></span><span class="target" id="acu-fwclassacu_1_1Correlation_1a87c34d22fed76b65e32b7b86cce5ccd2"></span>std::vector&lt;<a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a>&gt; *<code class="descname">thresholds</code><a class="headerlink" href="#_CPPv2N3acu11Correlation10thresholdsE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The thresholds for triggering correlations. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="storage">
+<h2>Storage<a class="headerlink" href="#storage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu7StorageE">
+<span id="acu::Storage"></span><span class="target" id="acu-fwclassacu_1_1Storage"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Storage</code><a class="headerlink" href="#_CPPv2N3acu7StorageE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu7Storage7StorageENSt6stringE">
+<span id="acu::Storage::Storage__ss"></span><span class="target" id="acu-fwclassacu_1_1Storage_1acd7f2825bc2b5d2102fc14429fa4ec18"></span><code class="descname">Storage</code><span class="sig-paren">(</span>std::string <em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu7Storage7StorageENSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate the storage object, used for interaction with the underlying database.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">db_name</span></code>: The name of the database </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N3acu7Storage7PersistEPK13IncomingAlert">
+<span id="acu::Storage::Persist__IncomingAlertCP"></span><span class="target" id="acu-fwclassacu_1_1Storage_1af9a449789029c827065e29d095f40256"></span><em class="property">virtual</em> void <code class="descname">Persist</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu13IncomingAlertE" title="acu::IncomingAlert">IncomingAlert</a> *<em>alert</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N3acu7Storage7PersistEPK13IncomingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Persists the given alert.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">alert</span></code>: The <a class="reference internal" href="#acu-fwclassacu_1_1IncomingAlert"><span class="std std-ref">IncomingAlert</span></a> to put into the DB </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu7Storage7db_nameE">
+<span id="acu::Storage::db_name__ss"></span><span class="target" id="acu-fwclassacu_1_1Storage_1a447a7fc4832bbddc2e9eb5646f6fe3c0"></span>std::string <code class="descname">db_name</code><a class="headerlink" href="#_CPPv2N3acu7Storage7db_nameE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the database. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold">
+<h2>Threshold<a class="headerlink" href="#threshold" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu9ThresholdE">
+<span id="acu::Threshold"></span><span class="target" id="acu-fwstructacu_1_1Threshold"></span><em class="property">struct </em><code class="descclassname">acu::</code><code class="descname">Threshold</code><a class="headerlink" href="#_CPPv2N3acu9ThresholdE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu9Threshold9ThresholdEiNSt6stringENSt6stringE">
+<span id="acu::Threshold::Threshold__i.ss.ss"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a8758ea0d07741e2f5c2792d50411dbca"></span><code class="descname">Threshold</code><span class="sig-paren">(</span>int <em>count</em>, std::string <em>field_name</em>, std::string <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu9Threshold9ThresholdEiNSt6stringENSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acu-fwstructacu_1_1Threshold"><span class="std std-ref">Threshold</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">count</span></code>: The count, the value must reach to trigger further computations </li>
+<li><code class="docutils literal"><span class="pre">field_name</span></code>: The name of the corresponding database field </li>
+<li><code class="docutils literal"><span class="pre">value</span></code>: The expected value of that field </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu9ThresholdeqERK9Threshold">
+<span id="acu::Threshold::eq-operator__ThresholdCRC"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a5465d50ca8a8fabd161e9d87698ca4e3"></span>bool <code class="descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a> &amp;<em>rhs</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu9ThresholdeqERK9Threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for equality. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu9ThresholdneERK9Threshold">
+<span id="acu::Threshold::neq-operator__ThresholdCRC"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a5ebd0aac7b8fec129f0a7be349cc6804"></span>bool <code class="descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv2N3acu9ThresholdE" title="acu::Threshold">Threshold</a> &amp;<em>rhs</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu9ThresholdneERK9Threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for inequality. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu9Threshold5countE">
+<span id="acu::Threshold::count__uint64_t"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a5f5cd82a2193a7ec257017cee5d2f9d9"></span>uint64_t <code class="descname">count</code><a class="headerlink" href="#_CPPv2N3acu9Threshold5countE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count after the threshold is reached. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu9Threshold10field_nameE">
+<span id="acu::Threshold::field_name__ss"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a4a87123577f493caed8abf717464c8a5"></span>std::string <code class="descname">field_name</code><a class="headerlink" href="#_CPPv2N3acu9Threshold10field_nameE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field name which should be checked for the value. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu9Threshold5valueE">
+<span id="acu::Threshold::value__ss"></span><span class="target" id="acu-fwstructacu_1_1Threshold_1a5dcddf6779f606b6c58f51dbd52c8a31"></span>std::string <code class="descname">value</code><a class="headerlink" href="#_CPPv2N3acu9Threshold5valueE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of the field which will be counted. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="outgoingalert">
+<h2>OutgoingAlert<a class="headerlink" href="#outgoingalert" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu13OutgoingAlertE">
+<span id="acu::OutgoingAlert"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">OutgoingAlert</code><a class="headerlink" href="#_CPPv2N3acu13OutgoingAlertE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu13OutgoingAlert13OutgoingAlertENSt6stringE10time_pointI12system_clockE">
+<span id="acu::OutgoingAlert::OutgoingAlert__ss.time_point:system_clock:"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert_1a1242f4be497d91f2d459498adc9d91fa"></span><code class="descname">OutgoingAlert</code><span class="sig-paren">(</span>std::string <em>name</em>, time_point&lt;system_clock&gt; <em>timestamp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu13OutgoingAlert13OutgoingAlertENSt6stringE10time_pointI12system_clockE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate an <a class="reference internal" href="#acu-fwclassacu_1_1OutgoingAlert"><span class="std std-ref">OutgoingAlert</span></a>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: Name of the alert-event </li>
+<li><code class="docutils literal"><span class="pre">timestamp</span></code>: The point in time, this event occured </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13OutgoingAlert9EventNameEv">
+<span id="acu::OutgoingAlert::EventNameC"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert_1a05cf7f3be4a88cadb14fb80de5a5314d"></span><em class="property">const</em> std::string <code class="descname">EventName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13OutgoingAlert9EventNameEv" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The name of this event. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu13OutgoingAlert9ToMessageEv">
+<span id="acu::OutgoingAlert::ToMessageC"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert_1a351508df8cc494d4e958bd06243d8d9d"></span><em class="property">const</em> broker::message <code class="descname">ToMessage</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu13OutgoingAlert9ToMessageEv" title="Permalink to this definition">¶</a></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The broker-message of this alert. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N3acu13OutgoingAlert12incidentNameE">
+<span id="acu::OutgoingAlert::incidentName__ss"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert_1a3d8cf07889436ee7b6c38daae9f6917d"></span>std::string <code class="descname">incidentName</code><a class="headerlink" href="#_CPPv2N3acu13OutgoingAlert12incidentNameE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of this incident/alert. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu13OutgoingAlert9timestampE">
+<span id="acu::OutgoingAlert::timestamp__time_point:system_clock:"></span><span class="target" id="acu-fwclassacu_1_1OutgoingAlert_1a1e6486a8e3a7829a5e778de125c5ffd2"></span>time_point&lt;system_clock&gt; <code class="descname">timestamp</code><a class="headerlink" href="#_CPPv2N3acu13OutgoingAlert9timestampE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time_point to this incident/alert. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="sender">
+<h2>Sender<a class="headerlink" href="#sender" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="_CPPv2N3acu6SenderE">
+<span id="acu::Sender"></span><span class="target" id="acu-fwclassacu_1_1Sender"></span><em class="property">class </em><code class="descclassname">acu::</code><code class="descname">Sender</code><a class="headerlink" href="#_CPPv2N3acu6SenderE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N3acu6Sender6SenderENSt6stringE6port_t">
+<span id="acu::Sender::Sender__ss.port_t"></span><span class="target" id="acu-fwclassacu_1_1Sender_1a9f7fed7beba0201e44c465fc5049e64a"></span><code class="descname">Sender</code><span class="sig-paren">(</span>std::string <em>destination</em>, <a class="reference internal" href="#_CPPv2N3acu6port_tE" title="acu::port_t">port_t</a> <em>port</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N3acu6Sender6SenderENSt6stringE6port_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a <a class="reference internal" href="#acu-fwclassacu_1_1Sender"><span class="std std-ref">Sender</span></a></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">destination</span></code>: The destination address to send to </li>
+<li><code class="docutils literal"><span class="pre">port</span></code>: The destination port to send to </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK3acu6Sender4SendEP13OutgoingAlert">
+<span id="acu::Sender::Send__OutgoingAlertPC"></span><span class="target" id="acu-fwclassacu_1_1Sender_1a7f6284c3e3b135515985f548d2eb56e5"></span>bool <code class="descname">Send</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N3acu13OutgoingAlertE" title="acu::OutgoingAlert">OutgoingAlert</a> *<em>alert</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK3acu6Sender4SendEP13OutgoingAlert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send the given alert.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if successful, false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">alert</span></code>: The <a class="reference internal" href="#acu-fwclassacu_1_1OutgoingAlert"><span class="std std-ref">OutgoingAlert</span></a> to send </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Static Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N3acu6Sender24ACU_OUTGOING_ALERT_TOPICE">
+<span id="acu::Sender::ACU_OUTGOING_ALERT_TOPIC__ssC"></span><span class="target" id="acu-fwclassacu_1_1Sender_1a36bc5075f3fe3f3ab4606eb612d0dd88"></span><em class="property">const</em> std::string <code class="descname">ACU_OUTGOING_ALERT_TOPIC</code> = &quot;beemaster/acu/alert&quot;<a class="headerlink" href="#_CPPv2N3acu6Sender24ACU_OUTGOING_ALERT_TOPICE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant topic name for outgoing alerts. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N3acu6Sender13ENDPOINT_NAMEE">
+<span id="acu::Sender::ENDPOINT_NAME__ssC"></span><span class="target" id="acu-fwclassacu_1_1Sender_1a750d69f079c3da5b6e3f0670e4791c24"></span><em class="property">const</em> std::string <code class="descname">ENDPOINT_NAME</code> = &quot;acu_sender&quot;<a class="headerlink" href="#_CPPv2N3acu6Sender13ENDPOINT_NAMEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant name of the senders endpoint. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="utils">
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv23acu">
+<span id="acu"></span><span class="target" id="acu-fwnamespaceacu"></span><em class="property">namespace </em><code class="descname">acu</code><a class="headerlink" href="#_CPPv23acu" title="Permalink to this definition">¶</a></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Typedefs</p>
+<dl class="type">
+<dt id="_CPPv2N3acu6port_tE">
+<span id="acu::port_t"></span><span class="target" id="acu-fwnamespaceacu_1a198584c340f646caa69fc85ebfbdd094"></span><em class="property">typedef </em>uint16_t <code class="descname">port_t</code><a class="headerlink" href="#_CPPv2N3acu6port_tE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Typedef for consistent use of port numbers. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alert Correlation Unit (Framework)</a><ul>
+<li><a class="reference internal" href="#acu">Acu</a></li>
+<li><a class="reference internal" href="#receiver">Receiver</a></li>
+<li><a class="reference internal" href="#alertmapper">AlertMapper</a></li>
+<li><a class="reference internal" href="#incomingalert">IncomingAlert</a></li>
+<li><a class="reference internal" href="#aggregation">Aggregation</a></li>
+<li><a class="reference internal" href="#correlation">Correlation</a></li>
+<li><a class="reference internal" href="#storage">Storage</a></li>
+<li><a class="reference internal" href="#threshold">Threshold</a></li>
+<li><a class="reference internal" href="#outgoingalert">OutgoingAlert</a></li>
+<li><a class="reference internal" href="#sender">Sender</a></li>
+<li><a class="reference internal" href="#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="beemaster-acu-fw/README.html"
+                        title="previous chapter">MP-IDS ACU Framework</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="beemaster-acu-portscan/README.html"
+                        title="next chapter">MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/acu-fw.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-portscan/README.html" title="MP-IDS Alert Correlation Unit: Custom Beemaster ACU Portscan"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="beemaster-acu-fw/README.html" title="MP-IDS ACU Framework"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Beemaster 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, BroForce.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>
