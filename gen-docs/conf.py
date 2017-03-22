@@ -18,7 +18,7 @@
 #
 from os.path import abspath
 import sys
-sys.path = [abspath('./mp-ids-hp/connector/src'),
+sys.path = [abspath('./beemaster-hp/connector/src'),
             abspath('.')] + sys.path
 
 
@@ -50,13 +50,13 @@ source_suffix = ['.rst', '.md']
 
 from recommonmark.transform import AutoStructify
 def url_resolver(url):
-    gitlab_root = 'https://git.informatik.uni-hamburg.de/iss/'
+    github_root = 'https://github.com/UHH-ISS/'
     if url.endswith('.md') or (not url.startswith('http') and '#' in url):
         return url
     splitted = url.split('/')
     repo = splitted[0]
     rest = splitted[1:]
-    result = gitlab_root + repo + '/blob/master/' + '/'.join(rest)
+    result = github_root + repo + '/blob/master/' + '/'.join(rest)
     print "Transforming '{}' into '{}'".format(url, result)
     return result
 

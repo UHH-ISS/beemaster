@@ -68,8 +68,8 @@ fi
 
 # run sphinx
 . $_ENVDIR/bin/activate
-if type pandoc &>/dev/null; then
-    pandoc ../STYLEGUIDE.md -o STYLEGUIDE.rst
-fi
 make html
 deactivate
+
+# links
+[ -L "../docs" ] || ln -sr _build/html ../docs
