@@ -70,6 +70,3 @@ fi
 . $_ENVDIR/bin/activate
 make html
 deactivate
-
-# links
-[ -L "../docs" ] || ln -sr _build/html ../docs
