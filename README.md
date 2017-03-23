@@ -1,9 +1,10 @@
 Project Beemaster
 ==================================================
 
-This is the overview repository of the Beemaster project - an IDS based on *Bro*, using *ACU* (Alert Correlation Units) to create Meta-Alerts from data provided by a *Bro* or a honeypot. Results can be visualized using the *CIM* (Cyber Incident Monitor).
-
-
+This is the overview repository of the Beemaster project - an IDS based on
+*Bro*, using *ACU* (Alert Correlation Units) to create Meta-Alerts from data
+provided by a *Bro* or a honeypot. Results can be visualized using the *CIM*
+(Cyber Incident Monitor).
 
 ## Repositories
 
@@ -18,18 +19,21 @@ The project and its documentation (Readme, Source Code) is splitted in multiple 
 
 
 ## Warning
-The repositories were moved from the servers of the University of Hamburg. During this transition the names of the repositories changed. However, the contents of the repositories do not reflect this change at the time of writing. For example, you may have to adjust Dockerfile and docker-compose files.
+
+The repositories were moved from the servers of the University of Hamburg.
+During this transition the names of the repositories changed. However, the
+contents of the repositories do not reflect this change at the time of writing.
+For example, you may have to adjust Dockerfile and docker-compose files.
 
 The former `mp-ids-` needs to be changed to `beemaster-`.
 
 
 ## Documentation
 
-You can generate a HTML documentation for the source code and Readme files. See: **[docs](docs)**.
-
+You can generate a HTML documentation for the source code and Readme files.
+See: **[docs](docs)**.
 
 
 ## Tests
+
 Integration tests (docker based) can be found in the folder [**tests**](tests).
-
-
