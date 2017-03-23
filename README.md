@@ -21,11 +21,10 @@ The project and its documentation (Readme, Source Code) is splitted in multiple 
 ## Warning
 
 The repositories were moved from the servers of the University of Hamburg.
-During this transition the names of the repositories changed. However, the
-contents of the repositories do not reflect this change at the time of writing.
-For example, you may have to adjust Dockerfile and docker-compose files.
-
-The former `mp-ids-` needs to be changed to `beemaster-`.
+During this transition the names of the repositories changed. However, not
+all contents of the repositories reflect this change at the time of writing.
+In case you are having troubles, check weather the former `mp-ids-` needs 
+to be changed to `beemaster-`.
 
 
 ## Documentation
