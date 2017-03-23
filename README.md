@@ -31,6 +31,7 @@ to be changed to `beemaster-`.
 
 You can generate a HTML documentation for the source code and Readme files.
 See: **[docs](docs)**.
+The generated documentation may be found here: https://uhh-iss.github.io/beemaster/
 
 
 ## Tests
